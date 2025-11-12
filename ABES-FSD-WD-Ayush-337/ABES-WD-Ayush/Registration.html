@@ -3,10 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <title>Registration Page</title>
+    <script>
+function validateForm() {
+    var name = document.forms["regForm"]["name"].value.trim();
+    var password = document.forms["regForm"]["password"].value;
+    var email = document.forms["regForm"]["email"].value.trim();
+    var phone = document.forms["regForm"]["phone"].value.trim();
+    var errorDiv = document.getElementById("error");
+    var error = "";
+
+    var namePattern = /^[A-Za-z ]+$/;
+    if (!namePattern.test(name) || name.length < 6) {
+        error = "Name must contain only alphabets and be at least 6 characters long.";
+    } else if (password.length < 6) {
+        error = "Password must be at least 6 characters long.";
+    } else {
+        var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$/;
+        if (!emailPattern.test(email)) {
+            error = "Please enter a valid email address (e.g., name@domain.com).";
+        } else {
+            var phonePattern = /^[0-9]{10}$/;
+            if (!phonePattern.test(phone)) {
+                error = "Phone number must contain exactly 10 digits.";
+            }
+        }
+    }
+
+    if (error !== "") {
+        errorDiv.textContent = error;
+        errorDiv.style.color = "red";
+        return false;
+    } else {
+        errorDiv.textContent = "Registration successful!";
+        errorDiv.style.color = "green";
+        return false;
+    }
+}
+</script>
 </head>
 <body>
     <h1 align="center">Register</h1>
-    <form action="Registration">
+    <form name="regForm" onsubmit="return validateForm()">
         <table border="0" cellpadding="6" cellspacing="0" align="center">
             <tr>
                 <td>Name:</td>
@@ -86,5 +123,7 @@
             </tr>
         </table>
     </form>
+    <div id="error" style="text-align:center; margin-top:10px;"></div>
+
 </body>
 </html>
